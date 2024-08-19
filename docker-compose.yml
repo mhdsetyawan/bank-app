@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  account-manager:
+    build: ./account-manager
+    ports:
+      - "3001:3001"
+    environment:
+      - DATABASE_URL=
+      - SUPABASE_URL=
+      - SUPABASE_KEY=
+    depends_on:
+      - db
+
+  payment-manager:
+    build: ./payment-manager
+    ports:
+      - "3002:3002"
+    environment:
+      - DATABASE_URL=
+      - SUPABASE_URL=
+      - SUPABASE_KEY=
+    depends_on:
+      - db
+
+volumes:
+  db_data:

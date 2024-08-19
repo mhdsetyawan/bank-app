@@ -1,0 +1,35 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  username String  @unique
+  password String
+  accounts PaymentAccount[]
+}
+
+model PaymentAccount {
+  id       Int     @id @default(autoincrement())
+  type     String
+  balance  Float   @default(0.0)
+  userId   Int
+  user     User    @relation(fields: [userId], references: [id])
+  history  PaymentHistory[]
+}
+
+model PaymentHistory {
+  id          Int     @id @default(autoincrement())
+  amount      Float
+  timestamp   DateTime @default(now())
+  accountId   Int
+  type        String
+  status      String
+  account     PaymentAccount @relation(fields: [accountId], references: [id])
+}

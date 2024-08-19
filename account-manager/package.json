@@ -1,0 +1,19 @@
+{
+  "name": "account-manager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.18.0",
+    "@supabase/supabase-js": "^2.45.1",
+    "fastify": "^4.28.1",
+    "fastify-jwt": "^4.2.0",
+    "prisma": "^5.18.0"
+  }
+}
